@@ -1,1 +1,1 @@
-yo
+const { Course, Student } = require('../models');

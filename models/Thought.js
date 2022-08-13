@@ -27,19 +27,12 @@ const thoughtSchema = new Schema(
   }
 );
 
-thoughtSchema
-  .virtual('reactionCount')
-  // Getter
-  .get(function () {
-    return `${this.friends}`;
+thoughtSchema.virtual('reactionCount').get(function () {
+    return this.reactions.length;
   })
-  // Setter 
-  .set(function (v) {
-    const friends = v.split(' ')[0];
 
-    this.set({ friends });
-  });
+ 
 
 const Thought = model('thought', thoughtSchema);
 
-modeule.exports = Thought;
+module.exports = Thought;

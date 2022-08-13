@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
 module.exports = {
@@ -35,7 +36,7 @@ module.exports = {
           ? res.status(404).json({ message: 'No user with that ID' })
           : Thought.deleteMany({ _id: { $in: user.thought } })
       )
-      .then(() => res.json({ message: 'user and thought deleted!' }))
+      .then(() => res.json({ message: 'user and thoughts deleted!' }))
       .catch((err) => res.status(500).json(err));
   },
   // Update a user
@@ -51,5 +52,29 @@ module.exports = {
           : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
+  },
+  // add friend
+  addFriend(req, res) {
+    console.log('you are adding a friend');
+    console.log(req.body);
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.body } },
+      { runValidators: true, new: true }
+    ).then((user) => !user
+      ? res.status(404).json({ message: 'no user found with that ID'})
+      : res.json(user)
+    ).catch((err) => res.status(500).json(err));
+  },
+  // remove friend
+  removeFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.body  } },
+      { runValidators: true, new: true }
+    ).then((user) => !user
+      ? res.status(404).json({ message: 'no user found with that ID'})
+      : res.json(user)
+    ).catch((err) => res.status(500).json(err));
   },
 }

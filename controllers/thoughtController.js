@@ -5,7 +5,7 @@ module.exports = {
   // get all Thoughts
   getThoughts(req, res) {
     Thought.find()
-      .populate({ path: 'reactions' })
+      // .populate({ path: 'reactions' })
       .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
@@ -28,12 +28,12 @@ module.exports = {
       User.findOneAndUpdate(
         { _id: body.userId },
         { $push: { thoughts: thought._id } },
-        { runValidators: true, new: true }
+        // { new: true }
       ).then((user) =>
         !user
         ? res.status(404).json({ message: 'No user with this id!' })
-        : res.json(user)).catch((err) => res.status(500).json(err));
-    })).catch(err => res.status(400).json(err));
+        : res.json(user)).catch((err) => res.status(200).json(err));
+    })).catch(err => res.status(200).json(err));
   },  
       
   // Delete a Thought
@@ -47,8 +47,8 @@ module.exports = {
       ).then((user) =>
         !user
         ? res.status(404).json({ message: 'No user with this id!' })
-        : res.json(user)).catch((err) => res.status(500).json(err));
-    })).catch(err => res.status(400).json(err));
+        : res.json(user)).catch((err) => res.status(200).json(err));
+    })).catch(err => res.status(200).json(err));
   },
   // Update a Thought
   updateThought(req, res) {
@@ -73,7 +73,7 @@ module.exports = {
       { $push: { reactions: req.body } },
       { runValidators: true, new: true }
     ).then((thought) => !thought
-      ? res.status(404).json({ message: 'no thought found with that ID'})
+      ? res.status(404).json({ message: 'no reaction found with that ID'})
       : res.json(thought)
     ).catch((err) => res.status(500).json(err));
   },
@@ -82,9 +82,9 @@ module.exports = {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $pull: { reactions: req.body } },
-      { runValidators: true, new: true }
+      // { runValidators: true, new: true }
     ).then((thought) => !thought
-      ? res.status(404).json({ message: 'no thought found with that ID'})
+      ? res.status(404).json({ message: 'no reaction found with that ID'})
       : res.json(thought)
     ).catch((err) => res.status(500).json(err));
   },

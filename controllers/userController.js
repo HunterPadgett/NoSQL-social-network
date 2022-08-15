@@ -11,7 +11,7 @@ module.exports = {
   // get single user
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .select('__v')
+      .select('-__v')
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'no user with that ID' })
@@ -55,11 +55,11 @@ module.exports = {
   },
   // add friend
   addFriend(req, res) {
-    console.log('you are adding a friend');
-    console.log(req.body);
+    // console.log('you are adding a friend');
+    // console.log(req.body);
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { friends: req.body } },
+      { $push: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     ).then((user) => !user
       ? res.status(404).json({ message: 'no user found with that ID'})
@@ -70,7 +70,7 @@ module.exports = {
   removeFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { friends: req.body  } },
+      { $pull: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     ).then((user) => !user
       ? res.status(404).json({ message: 'no user found with that ID'})

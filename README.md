@@ -6,7 +6,7 @@
 
 This is an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. This uses Express.js for writing, MongoDB for the database, and the Mongoose ODM. The walk-thru video using Insonia to test the routes will be linked below.
 
-https://watch.screencastify.com/v/bLhmR8RAUD7mnCBTIMmB
+https://watch.screencastify.com/v/dRTZTugr8RQe9i2hzsb2
 
 ## Table of Contents
 
